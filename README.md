@@ -2,7 +2,7 @@
 
 # Defold's Side Scroller tutorial from scratch
 
-This document is a humble attempt to deconstruct the *Defold*'s [Side Scroller Tutorial](https://github.com/defold/tutorial-side-scroller). Its purpose is to try to recreate step by step that project from scratch in order to better understand how it was made and by doing so to better understand how to use *Defold*.
+This tutorial is a humble attempt to deconstruct the *Defold*'s [Side Scroller Tutorial](https://github.com/defold/tutorial-side-scroller). Its purpose is to try to recreate step by step that project from scratch in order to better understand how it was made and by doing so to better understand how to use *Defold*.
 
 To follow this, you need at the very least to:
 
@@ -1098,7 +1098,7 @@ Test your game:
 
 ## Adding particles effect when stars collides with the spaceship
 
-Now that collision is properly taken care of, let's add some effects when those collision occurs. First, you'll create a particle effect resource. You'll then attach it to the star and the bonus star game objects. Finallt, you'll have to play those particles effects when collision occurs. So you'll have to add some code in the star and bonus star scripts.
+Now that collisions are properly taken care of, let's add some effects when those collisions occur. First, you'll create a particle effect resource. You'll then attach it to the star and the bonus star game objects. Finally, you'll have to play those particles effects when collision occurs. So you'll add some code in the star and bonus star scripts.
 
 ### Creating the particle resource
 
@@ -1106,28 +1106,44 @@ First, create a new particle effect.
 
 - In the `Assets` view, right click the `stars` folder and select `New...` > `Particle FX`.
 - In the `New Particle FX` dialog, name the new particle effect `pickup.particlefx` and click the `OK` button.
+
+By default, the particle effect has already an emitter. You just have to set its properties as needed.
+
 - In the `Outline` view, select the `emitter` element.
 - In the `Properties` view, set everything as the following picture illustrates:
 
-![particle effect properties](doc/defold_particle_fx_properties.png)
+![particle effect emitter properties](doc/defold_particle_fx_properties.png)
+
+Alongside the emitter, you'll need a modifier that will apply some forces on the particles. For this effect, you'll use a radial modifier that you'll place to the right of the emitter pushing the particles to the left.
 
 - In the `Outline` view, right click the `ParticleFX` resource and select `Add Modifier`.
 - In the `Add Modifier` dialog, select the `Radial` modifier and click the `OK` button.
 - In the `Properties` view, set the `Magnitude +` property to `750`.
 - Set the `Position` sub-property `X` to `233`.
+
+![particles effect modifier properties](doc/defold_particles_modifier.png)
+
 - In the `Outline` view, select the `ParticleFX` resource.
 - Select the `View` > `Frame Selection` menu to center the `Editor` view on the effect.
 - Select the `View` > `Play` menu to play the effect.
 Save and close the particle effect.
 
+![particles effect screenshot](doc/defold_particles_screenshot.png)
+
 ### Adding the particle effect to the star game object
+
+The particles effect is ready. you need to add it to the proper game objects.
 
 - In the `Assets` view, inside the `stars` folder, double click the `star.go` resource to open it inside the editor.
 - In the `Outline` view, right click on the `Game Object` resource and select `Add Component File`.
 - In the `Select Component File` dialog, select the `pickup.particlefx` component file and click the `OK` button.
 - Save and close the game object.
 
+![star game object with particle effect](doc/defold_star_game_object_final.png)
+
 ### Modify the star script to play the particle effect when collision occurs
+
+Now, you only have to add one line of code to play the particles effect when a collision occurs.
 
 - In the `Assets` view, inside the `stars` folder, double click the `star.script` resource to open it inside the editor.
 - In the `Editor` view, replace the on_message function by the following:
@@ -1143,19 +1159,31 @@ end
 
 Save and close the script.
 
+[A COMPLETER]()
+
+
+
+
+
 Test your game:
 
 - Click the `Project` > `Build` menu to check if stars turn into particles when colliding with the spaceship.
 - Close your game.
 
-### Adding the particle effect to the bonus star game object
+### Adding the particles effect to the bonus star game object
+
+As for the star game object, you need to add the particles effect to the bonus star game object.
 
 - In the `Assets` view, inside the `stars` folder, double click the `bonus_star.go` resource to open it inside the editor.
 - In the `Outline` view, right click on the `Game Object` resource and select `Add Component File`.
 - In the `Select Component File` dialog, select the `pickup.particlefx` component file and click the `OK` button.
 - Save and close the game object.
 
-### Modify the bonus star script to play the particle effect when collision occurs
+![bonus star game object with particles effect](doc/defold_bonus_star_game_object_final.png)
+
+### Modify the bonus star script to play the particles effect when collision occurs
+
+Again, you just have to add one line to the bonus star script to play the particles effect when a collision occurs.
 
 - In the `Assets` view, inside the `stars` folder, double click the `bonus_star.script` resource to open it inside the editor.
 - In the `Editor` view, replace the on_message function by the following:
@@ -1171,6 +1199,12 @@ end
 
 Save and close the script.
 
+[A COMPLETER]()
+
+
+
+
+
 Test your game:
 
 - Click the `Project` > `Build` menu to check if bonus stars turn into particles when colliding with the spaceship.
@@ -1178,9 +1212,11 @@ Test your game:
 
 ## Managing the score
 
+Your game is nearly finished. Let's add a score text for a better feedback. This time you'll create a `Font` resource based upon a truetype font file. You'll then create a `Gui` resource that will hold the font and the score text.  you'll create a game object that will hold that gui resource. you'll add that game object to the main collection. Finally, you'll modify the star and bonus star scripts to send points (through a message) to a gui script that you'll create and attach to the gui game object.
+
 ### Moving the score font
 
-Create a `fonts` folder:
+To better organize your project, create a `fonts` folder:
 
 - In the `Assets` view, right click the root directory of the project and select `New Folder`.
 - In the `New folder` dialog, name the folder `fonts` and click the `OK` button.
@@ -1189,9 +1225,11 @@ Move the font file to the `fonts` folder:
 
 - In the `Assets` view, drag the `BoogalooOne-Regular.ttf` file from the `assets` folder to the `fonts` folder.
 
+![fonts folder](doc/defold_fonts_folder.png)
+
 ### Creating the score font
 
-Create a new font resource:
+*Defold* cannot directly use the truetype font files. You need to create a new font resource:
 
 - Right click the `fonts` directory and select `New...` > `Font`.
 - In the `New Font` dialog,  name the font `score.font` and click the `OK` button.
@@ -1204,7 +1242,11 @@ Set the font properties:
 
 ![score font properties](doc/defold_score_font_properties.png)
 
+- Save and close the font.
+
 ### Creating a gui resource
+
+Everything gui related needs to be added inside a `Gui` resource. So create one.
 
 - In the `Assets` view, right click the `main` folder and select `New...` > `Gui`.
 - In the `New Gui` dialog, name the gui `main.gui` and click the `OK` button.
@@ -1216,11 +1258,15 @@ Set the font properties:
 
 ![text properties](doc/defold_text_properties.png)
 
-- Save and close the gui.
-
 **Note:** Colors are in french in that screenshot. I assume it is due to my system settings.
 
+- Save and close the gui.
+
+![gui structure](doc/defold_gui_structure.png)
+
 ### Creating a gui game object
+
+Now, let's add that gui resource to a game object.
 
 - In the `Assets` view, right click the `main` folder and select `New...` > `Game Object`.
 - In the `New Game Object` dialog, name the game object `main.go` and click the `OK` button.
@@ -1229,14 +1275,20 @@ Set the font properties:
 - In the `Properties` view, set the `Id` property of the gui to `gui`.
 - Save and close the game object.
 
+![gui game object](doc/defold_gui_game_object.png)
+
 **Note:** You have to change the name to `gui` for the stars scripts to work properly.
 
 ### Adding the gui game object to the main collection
+
+The gui game object can now be added to the main collection.
 
 - In the `Assets` view, inside the `main` folder, double click the `main.collection` file to open it inside the editor.
 - In the `Outline` view, right click the root `Collection` and select `Add Game Object File`.
 - In the `Select Game Object File` dialog, select the `main.go` game object and click the `OK` button.
 - Save and close the collection.
+
+![main collection final structure](doc/defold_main_collection_structure_final.png)
 
 Test your game:
 
@@ -1244,6 +1296,8 @@ Test your game:
 - Close your game.
 
 ### Modifying the star script to send points to the gui
+
+The gui is properly displayed but the score doesn't update yet. First you need to send a message from the star and bonus star scripts to the gui game object when collision occurs. Just one line of code needs to be added to the original scripts.
 
 - In the `Assets` view, inside the `stars` folder, double click the `star.script` file to open it inside the editor.
 - Modify the content of the script to the following:
@@ -1272,7 +1326,15 @@ end
 
 - Save and close the script.
 
+[A COMPLETER]()
+
+
+
+
+
 ### Modifying the bonus star script to send points to the gui
+
+Do the same for the bonus star script with just a different score value.
 
 - In the `Assets` view, inside the `stars` folder, double click the `bonus_star.script` file to open it inside the editor.
 - Modify the content of the script to the following:
@@ -1300,11 +1362,20 @@ end
 
 Save and close the script.
 
+[A COMPLETER]()
+
+
+
+
+
+
 ### creating the gui script to update and animate the score
+
+The star and bonus star scripts send the `add_score` message to the gui game object. You need to create a gui script to manage those messages.
 
 - In the `Assets` view, right click the `main` folder and select `New...` > `Gui Script`.
 - In the `New Gui Script` dialog, name the script `main.gui_script` and click the `OK` button.
-- In the `Editor` view, enter the following code:
+- In the `Editor` view, erase everything and enter the following code:
 
 ```lua
 function init(self)
@@ -1329,20 +1400,31 @@ end
 
 - Save and close the gui script.
 
+[A COMPLETER]()
+
+
+
+
+
+
 ### Adding the gui script to the gui game object
+
+As always, you need to attach the script for it to be useful. Do this and you'll be done with this project!
 
 - In the `Assets` view, inside the `main` folder, double click the `main.gui` file to open it inside the editor.
 - In the `Properties` view, to the right of the `Script` property, click the `...` button.
 - In the `Select Resource` dialog, select the `main.gui_script` script and click the `OK` button.
 - Save and close the gui.
 
+![attaching the gui script](doc/defold_gui_script.png)
+
 Test your game:
 
-- Click the `Project` > `Build` menu to check if the the score goes up and is animated.
+- Click the `Project` > `Build` menu to check if the the score goes up and is animated when stars come into contact with the spaceship (giving the illusion that the spaceship collects them).
 - Close your game.
 
 ## Congratulations
 
-You have completed all the steps to recreate the side scroller tutorial. Now, try to improve it with a title screen or some obstacles.
+You have completed all the steps to recreate the side scroller tutorial. Now, try to improve it with a title screen or some obstacles. As always, be creative and experiment new features.
 
-Thank you for following this document.
+Thank you for following this tutorial.
