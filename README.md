@@ -1,4 +1,72 @@
-
+- [Defold's Side Scroller tutorial from scratch](#defold-s-side-scroller-tutorial-from-scratch)
+  * [How to use this](#how-to-use-this)
+  * [Steps of this project](#steps-of-this-project)
+  * [Setting up the project](#setting-up-the-project)
+    + [Opening the configuration file](#opening-the-configuration-file)
+    + [Setting up the title](#setting-up-the-title)
+    + [Setting up resolution](#setting-up-resolution)
+    + [Setting up inputs](#setting-up-inputs)
+  * [Setting up the background](#setting-up-the-background)
+    + [Creating the background atlas](#creating-the-background-atlas)
+    + [Adding the background to the main collection](#adding-the-background-to-the-main-collection)
+  * [Setting up the background planets](#setting-up-the-background-planets)
+    + [Adding the planets to the background atlas](#adding-the-planets-to-the-background-atlas)
+    + [Creating a small planets background](#creating-a-small-planets-background)
+    + [Adding two small_planets game objects to the main collection](#adding-two-small-planets-game-objects-to-the-main-collection)
+    + [Creating a big planets background](#creating-a-big-planets-background)
+    + [Adding two large planets game objects to the main collection](#adding-two-large-planets-game-objects-to-the-main-collection)
+  * [Moving the planets](#moving-the-planets)
+    + [Creating a script for the small planets game object](#creating-a-script-for-the-small-planets-game-object)
+    + [Adding the script to the small planets game object](#adding-the-script-to-the-small-planets-game-object)
+    + [Creating a script for the large planets game object](#creating-a-script-for-the-large-planets-game-object)
+    + [Adding the script to the large planets game object](#adding-the-script-to-the-large-planets-game-object)
+  * [Setting up the spaceship](#setting-up-the-spaceship)
+    + [Creating the spaceship atlas](#creating-the-spaceship-atlas)
+    + [Creating a spaceship game object](#creating-a-spaceship-game-object)
+    + [Adding the spaceship to the main collection](#adding-the-spaceship-to-the-main-collection)
+  * [Making the spaceship sway back and forth](#making-the-spaceship-sway-back-and-forth)
+    + [Creating the spaceship's script](#creating-the-spaceship-s-script)
+    + [Attaching the script to the spaceship game object](#attaching-the-script-to-the-spaceship-game-object)
+  * [Making the spaceship respond to inputs](#making-the-spaceship-respond-to-inputs)
+  * [Spawning stars](#spawning-stars)
+    + [Creating the stars atlas](#creating-the-stars-atlas)
+    + [Creating the star game object](#creating-the-star-game-object)
+    + [Creating the star script](#creating-the-star-script)
+    + [Attaching the script to the star game object](#attaching-the-script-to-the-star-game-object)
+    + [Creating a factory](#creating-a-factory)
+    + [Creating the factory script](#creating-the-factory-script)
+    + [Attaching the factory script to the factory game object](#attaching-the-factory-script-to-the-factory-game-object)
+    + [Adding the factory to the main collection](#adding-the-factory-to-the-main-collection)
+  * [Spawning bonus stars](#spawning-bonus-stars)
+    + [Adding the bonus star images to the stars atlas](#adding-the-bonus-star-images-to-the-stars-atlas)
+    + [Creating the bonus star game object](#creating-the-bonus-star-game-object)
+    + [Creating the bonus stars script](#creating-the-bonus-stars-script)
+    + [Attaching the script to the bonus star game object](#attaching-the-script-to-the-bonus-star-game-object)
+    + [Creating a bonus stars factory](#creating-a-bonus-stars-factory)
+    + [Making the factory script spawn bonus stars too](#making-the-factory-script-spawn-bonus-stars-too)
+  * [Managing collisions](#managing-collisions)
+    + [Adding a collision object to the spaceship](#adding-a-collision-object-to-the-spaceship)
+    + [Adding a collision object to the star](#adding-a-collision-object-to-the-star)
+    + [Modify the star script to manage collision](#modify-the-star-script-to-manage-collision)
+    + [Adding a collision object to the bonus star](#adding-a-collision-object-to-the-bonus-star)
+    + [Modify the bonus star script to manage collision](#modify-the-bonus-star-script-to-manage-collision)
+  * [Adding particles effect when stars collides with the spaceship](#adding-particles-effect-when-stars-collides-with-the-spaceship)
+    + [Creating the particle resource](#creating-the-particle-resource)
+    + [Adding the particle effect to the star game object](#adding-the-particle-effect-to-the-star-game-object)
+    + [Modify the star script to play the particle effect when collision occurs](#modify-the-star-script-to-play-the-particle-effect-when-collision-occurs)
+    + [Adding the particles effect to the bonus star game object](#adding-the-particles-effect-to-the-bonus-star-game-object)
+    + [Modify the bonus star script to play the particles effect when collision occurs](#modify-the-bonus-star-script-to-play-the-particles-effect-when-collision-occurs)
+  * [Managing the score](#managing-the-score)
+    + [Moving the score font](#moving-the-score-font)
+    + [Creating the score font](#creating-the-score-font)
+    + [Creating a gui resource](#creating-a-gui-resource)
+    + [Creating a gui game object](#creating-a-gui-game-object)
+    + [Adding the gui game object to the main collection](#adding-the-gui-game-object-to-the-main-collection)
+    + [Modifying the star script to send points to the gui](#modifying-the-star-script-to-send-points-to-the-gui)
+    + [Modifying the bonus star script to send points to the gui](#modifying-the-bonus-star-script-to-send-points-to-the-gui)
+    + [creating the gui script to update and animate the score](#creating-the-gui-script-to-update-and-animate-the-score)
+    + [Adding the gui script to the gui game object](#adding-the-gui-script-to-the-gui-game-object)
+  * [Congratulations](#congratulations)
 
 # Defold's Side Scroller tutorial from scratch
 
@@ -13,6 +81,12 @@ To follow this, you need at the very least to:
 **Note:** All assets needed for this project are provided inside the `assets` folder.
 
 Let's get started!
+
+## How to use this
+
+For the easiest workflow, simply download this full repository and open the project inside *Defold*. Then open the `README.md` file provided and follow along the explanations. Remember that you can split the `Editor` view of *Defold* to read the tutorial while you're editing your project (right click on a tab and choose `Move to Other Tab Pane`).
+
+You can also read this tutorial on your favorite browser but in that case you'll have to download the assets contained inside the `assets` folder of this repository, create an empty project in *Defold* and finally import manually the assets in your project.
 
 ## Steps of this project
 
@@ -817,6 +891,13 @@ end
 
 [A COMPLETER]()
 
+**Code analysis:**
+
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
@@ -971,7 +1052,13 @@ end
 
 [A COMPLETER]()
 
+**Code analysis:**
 
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
@@ -1047,13 +1134,21 @@ end
 
 [A COMPLETER]()
 
+**Code analysis:**
+
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
+
+
 
 
 Test your game:
 
 - Click the `Project` > `Build` menu to check if stars disappear when the spaceship touches them.
 - Close your game.
-
 
 ### Adding a collision object to the bonus star
 
@@ -1087,6 +1182,13 @@ Save and close the script.
 
 [A COMPLETER]()
 
+**Code analysis:**
+
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
@@ -1161,7 +1263,13 @@ Save and close the script.
 
 [A COMPLETER]()
 
+**Code analysis:**
 
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
@@ -1201,7 +1309,13 @@ Save and close the script.
 
 [A COMPLETER]()
 
+**Code analysis:**
 
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
@@ -1328,7 +1442,13 @@ end
 
 [A COMPLETER]()
 
+**Code analysis:**
 
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
@@ -1364,7 +1484,13 @@ Save and close the script.
 
 [A COMPLETER]()
 
+**Code analysis:**
 
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
@@ -1402,7 +1528,13 @@ end
 
 [A COMPLETER]()
 
+**Code analysis:**
 
+- `...` ....
+
+Put simply, this code ....
+
+**Note:** ....
 
 
 
