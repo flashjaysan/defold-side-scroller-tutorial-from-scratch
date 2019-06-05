@@ -236,7 +236,7 @@ Test your game:
 
 ## Setting up the background planets
 
-Now, you'll create two planets *layers*. One will be scaled down to simulate depth. Both will slowly move to the left of the screen (at different speeds). When they get out of sight, their position is reset to the right of the screen for a neverending scrolling effect.
+Now, you'll create two planets *layers*. One will be scaled down to simulate depth with a parallax scrolling. Both will slowly move to the left of the screen (at different speeds). When they get out of sight, their position is reset to the right of the screen for a neverending scrolling effect.
 
 ### Adding the planets to the background atlas
 
@@ -889,17 +889,26 @@ end
 
 - Save and close the script.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
+- `local frequency = 0.5` initializes the `frequency` variable to `0.5`. This is used to set the timer in a more human friendly manner than using a period value.
+`- local min_y = 60` initializes the `min_y` variable to `60`. This will represent the minimum vertical position where a star can be spawned.
+- `local max_y = 600` initializes the `max_y` variable to `600`. This will represent the maximum vertical position where a star can be spawned.
+- The `init` function is executed only once when the game object is created. This is used to set some starting values and initialize the random number generator.
+  - `self.timer = 1/frequency` sets the object's timer to the time needed to spawn a star.
+  - `math.randomseed(0)` initializes the random nomber generator to a seed of `0`. This forces it to always generate the same series of numbers each time the game exe.
+- The `update` function is executed each frame. There, you'll update the timer and check tis value to spawn a star game object.
+  - `self.timer = self.timer - dt` removes to its own value the delta time of the current frame to the timer.
+  - `if self.timer <= 0 then` checks if the timer value is below zero. This means that the timer has reached its end and the the code needs to spawn a new star. The following lines of code are executed only if the check is true.
+    - `self.timer = 1/frequency` resets the timer to the initial value. Since the timer has reached its set time, it needs to be reset for a new star to spawn.
+    - `local p = go.get_position()` assigns the current position of the game object to the variable `p`.
+    - `p.y = vmath.lerp(math.random(), min_y, max_y)` sets the `y` component of the game object's position held inside the `p` variable to a random value between `min_y` and `max_y`. This is equivalent to `math.random() * (max_y - min_y) + min_y`.
+    - `local component = "#star_factory"` assigns to the `component` variable the id of the star factory component. This will be useful when you'll want to spawn a bonus star instead of the standard star game object. you'll see that when you'll take care of the bonus star factory.
+    - `factory.create(component, p)` asks *Defold* to spawn a new star game object (held inside the `component` variable) and put it at the `p` position inside the game world.
 
-Put simply, this code ....
+Put simply, this code spawns a star game object every two seconds.
 
-**Note:** ....
-
-
+**Note:** Modify the `frequency` value to control the spawning speed of the factory.
 
 ### Attaching the factory script to the factory game object
 
@@ -1050,22 +1059,18 @@ end
 
 - Save and close the game object.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
+This code has only minor changes from the original one. Let's focus on the new parts.
 
-Put simply, this code ....
+- `local bonus_prob = 0.2` initializes the `bonus_prob` variable to `0.2`. This represents the probability (`20 %`) to spawn a bonus star instead of a standard star.
+- `if math.random() < bonus_prob then` checks if a random number is below the `bonus_prob` variable. This is a simple trick to make a probability check of `20 %`.
+- `component = "#bonus_factory"` sets the `component` variable to the bonus factory component. This happens only if the previous probability check was met.
+- `factory.create(component, p)` asks *Defold* to spawn a new star or bonus star game object (according to the value of the `component` variable) and put it at the `p` position inside the game world.
 
-**Note:** ....
+Put simply, this code spawns a star or a bonus star game object every two seconds.
 
-
-
-
-
-
-
+**Note:** Modify the `frequency` value to control the spawning speed of the factories. Modify the `bonus_prob` value th control the probability of spawning a bonus star.
 
 Test your game:
 
@@ -1132,18 +1137,13 @@ end
 
 - Save and close the script.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
+- The `on_message` function is called when the game object receives a message. A collision with the game object sends it the `"collision_response"` message's id.
+- `if message_id == hash("collision_response") then` checks if the message id (held inside the `message_id` parameter) is equal to the hashed value of the `"collision_response"` string. This effectively checks if a collision occurred with the game object.
+- `go.delete()` asks *Defold* to remove the game object. This executes only if the previous line of code was true (that is, if the game object has been colliding with something else).
 
-Put simply, this code ....
-
-**Note:** ....
-
-
-
+Put simply, this code asks *Defold* to remove the game object from the game world when something collides with it.
 
 Test your game:
 
@@ -1180,18 +1180,9 @@ end
 
 Save and close the script.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
-
-Put simply, this code ....
-
-**Note:** ....
-
-
-
+This code is strictly the same as the one for the star script. So there is nothing new to explain.
 
 Test your game:
 
@@ -1261,17 +1252,13 @@ end
 
 Save and close the script.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
+There is only one new line of code. Let's explain it.
 
-Put simply, this code ....
+- `particlefx.play("#pickup")` asks the particle effect to play its effect animation.
 
-**Note:** ....
-
-
+Put simply, this code plays the particle effect animation and removes the game object when a collision occurs.
 
 Test your game:
 
@@ -1307,17 +1294,9 @@ end
 
 Save and close the script.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
-
-Put simply, this code ....
-
-**Note:** ....
-
-
+This code is strictly the same as the one for the star script. So there is nothing new to explain.
 
 Test your game:
 
@@ -1440,17 +1419,16 @@ end
 
 - Save and close the script.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
+There are two new lines of code. Let's explain them.
 
-Put simply, this code ....
+- `local score = 1000` sets the `score` variable to `1000`. This represents the points earned for touching the star.
+- `msg.post("main#gui", "add_score", {amount = score})` asks *Defold* to send a message of id `"add_score"` to the `gui` component of the `main` game object and pass it the `amount` variable set to the `score` value. In effect, this asks the proper component to raise the score value by `1000`. This is executed only if the star received a `"collision_response"` message (that is, if the star game object collided with something else).
 
-**Note:** ....
+Put simply, this code checks if the star collided with something and if that's the case, sends a message to the gui to update the score value, play a particle effect and removes the star.
 
-
+**Note:** Modify the `score` variable's value to control the amount of points earned by the player when he touches a star.
 
 ### Modifying the bonus star script to send points to the gui
 
@@ -1482,18 +1460,13 @@ end
 
 Save and close the script.
 
-[A COMPLETER]()
+This is very similar to the previous code. The `score` value is simply different.
 
-**Code analysis:**
+- `local score = 5000` sets the `score` variable to `5000`. This represents the points earned for touching the bonus star.
 
-- `...` ....
+Put simply, this code checks if the bonus star collided with something and if that's the case, sends a message to the gui to update the score value, play a particle effect and removes the bonus star.
 
-Put simply, this code ....
-
-**Note:** ....
-
-
-
+**Note:** Modify the `score` variable's value to control the amount of points earned by the player when he touches a bonus star.
 
 ### creating the gui script to update and animate the score
 
@@ -1526,18 +1499,24 @@ end
 
 - Save and close the gui script.
 
-[A COMPLETER]()
-
 **Code analysis:**
 
-- `...` ....
+- The `init` function initializes useful values. This is called once when the game object is created.
+  - `self.score = 0` sets the `score` variable to `0`. In effect, it starts the game with a score of zero.
+  - `self.score_node = gui.get_node("score")` sets the `score_node` to the text node reffered as the `"score"` string.
+- The `scale_down` function is a utility function that will be used to reset the text scale property to its original value after animating it inside the `on_message` function.
+  - `local s = 1.0` sets the `s` variable to `1.0`. This represents the original scale value of the object.
+  - `gui.animate(node, gui.PROP_SCALE, vmath.vector4(s, s, s, 0), gui.EASING_OUT, 0.05)` animates the `scale` property of the `node` parameter. This scales back to the original value the scale of the text node. This is called at the end of the animation set inside the `on_message` function.
+- The `on_message` function is called everytime the game object receives a message.
+  - `if message_id == hash("add_score") then` check if the message id is equal to the hashed value of the `"add_score"` string. This is a message received from the star and bonus star game objects when they collided with something.
+  - `local s = 1.2` sets the `s` variable to `1.2` (`120 %` of the original size). This will be used inside the `go.animate` function as the target value of the `scale` property.
+  - `self.score = self.score + message.amount` sets the score to its current value plus the `amount` points passed from the star or bonus star game objects.
+  - `gui.set_text(self.score_node, tostring(self.score))` sets the text property of the `text` node (held inside the `score_node` variable) to the `score` value.
+  - `gui.animate(self.score_node, gui.PROP_SCALE, vmath.vector4(s, s, s, 0), gui.EASING_OUT, 0.1, 0.0, scale_down)` asks *Defold* to animate automatically the `scale` property of the `text` node from its current value to the `vmath.vector4(s, s, s, 0)` value in `0.1` second then when the animation has ended, calls the `scale_down` function.
 
-Put simply, this code ....
+Put simply, this code starts by initializing the `score` value. It then updates its value and animate its `scale` property when its value changes inside a message received.
 
-**Note:** ....
-
-
-
+**Note:** Modify the `s` value to control the amount of scale effect done on the text. you can also play with the other parameters of the `go.animate` function.
 
 ### Adding the gui script to the gui game object
 
