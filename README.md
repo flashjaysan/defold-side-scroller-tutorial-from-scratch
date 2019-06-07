@@ -435,7 +435,7 @@ end
 
 Put simply, this code updates the game object's position each frame by changing its `x` component. If the position gets too much on the left, it gets reset back on the right.
 
-**Note:** The *delta time* is the time elapsed between the current frame and the previous one. It is a very useful value to ensure the game flows at the same speed on slow and fast computers.
+**Note:** The *delta time* is the time elapsed between the current frame and the previous one. It is a very useful value to ensure the game flows at the same speed on slow and fast computers. If you need more information about this, take a look at the official [Movement tutorial](https://github.com/defold/tutorial-movement).
 
 ### Adding the script to the small planets game object
 
